@@ -14,7 +14,7 @@ class Database:
 
     @staticmethod
     def get(type_, id_: int):
-        db.session.query(type_).get(id_)
+        return db.session.query(type_).get(id_)
 
     @staticmethod
     def update():
@@ -32,4 +32,4 @@ class Database:
 
     @staticmethod
     def search(type_, order_by: str = "", filter_: str = ""):
-        db.session.query(type_).filter(text(filter_)).order_by(text(order_by))
+        return db.session.query(type_).filter(text(filter_)).order_by(text(order_by))
