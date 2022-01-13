@@ -1,3 +1,7 @@
 Flask~=2.0.1
 gunicorn
 python-dotenv~=0.19.0
+SQLAlchemy~=1.4.29
+flask_login
+flask_sqlalchemy
+PyMySQL~=1.0.2
