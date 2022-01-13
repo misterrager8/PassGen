@@ -17,9 +17,39 @@
       <li class="nav-item"><a class="nav-link">Link 3</a></li>
     </ul>
     <ul class="navbar-nav ms-auto">
-      <li class="nav-item"><a class="nav-link">{{ macros.user_icon() }}</a></li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-target="#userDD" data-bs-toggle="dropdown">
+          {% if not current_user.is_anonymous %}<span class="me-2">{{ current_user.email.split('@')[0] }}</span>{% endif %}
+          {{ macros.user_icon() }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-end text-center" id="userDD">
+          {% if current_user.is_anonymous %}
+          <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#login">Log In</a>
+          <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#signup">Sign Up</a>
+          {% else %}
+          <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+          {% endif %}
+        </div>
+      </li>
     </ul>
   </div>
+
+  <div class="modal" id="login">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        {{ macros.login_form() }}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="signup">
+    <div class="modal-dialog">
+      <div class="modal-content p-3">
+        {{ macros.signup_form() }}
+      </div>
+    </div>
+  </div>
+
 </nav>
 <div class="container">
   {% block body %}

@@ -30,3 +30,19 @@
   <circle cx="8" cy="8" r="8"/>
 </svg>
 {% endmacro %}
+
+{% macro login_form() %}
+<form method="POST" action="{{ url_for('login') }}" class="form-group">
+  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
+  <button type="submit" class="btn w-100">Log In</button>
+</form>
+{% endmacro %}
+
+{% macro signup_form() %}
+<form method="POST" action="{{ url_for('signup') }}" class="form-group">
+  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
+  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
+  <button type="submit" class="btn w-100">Sign Up</button>
+</form>
+{% endmacro %}
