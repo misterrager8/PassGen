@@ -1,0 +1,8 @@
+a:hover {
+    cursor: pointer;
+}
+
+.link, .link:hover {
+    color: inherit;
+    text-decoration: none;
+}
