@@ -44,18 +44,35 @@
 </svg>
 {% endmacro %}
 
+{% macro view_icon(size=20, color='currentcolor', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-eye {{ class }}" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+</svg>
+{% endmacro %}
+
+{% macro hint_icon(size=20, color='currentcolor', class='') %}
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-question-lg {{ class }}" viewBox="0 0 20 20">
+  <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14Z"/>
+</svg>
+{% endmacro %}
+
 {% macro account_card(account) %}
 <div class="card border-0 col-4">
-  <div class="card-body" onmouseenter="toggleDiv('password' + {{ account.id }})" onmouseleave="toggleDiv('password' + {{ account.id }})">
+  <div class="card-body">
+    <input style="display:none" value="{{ account.pass_ }}" id="copyThis{{ account.id }}">
     <span class="h2 d-block">{{ account.name }}</span>
     <span class="d-block">{{ account.user_ }}</span>
-    <a style="display:none" id="password{{ account.id }}" class="link input-group" onclick="$('#show' + {{ account.id }}).select(); document.execCommand('copy');">
-      <label class="input-group-prepend p-1" for="show{{ account.id }}">{{ copy_icon() }}</label>
-      <input readonly value="{{ account.pass_ }}" id="show{{ account.id }}" class="text-center">
-    </a>
+    <span class="fst-italic invisible d-block" id="pass{{ account.id }}">{{ account.pass_ }}</span>
+    {% if account.hint %}<span class="fst-italic invisible d-block" id="hint{{ account.id }}">{{ account.hint }}</span>{% endif %}
     <div>
       <a class="badge link bg-danger" onclick="toggleDiv('delete' + {{ account.id }})">Delete</a>
       <a id="delete{{ account.id }}" class="badge link" style="display:none" onclick="accountDelete({{ account.id }})">Delete?</a>
+      <div class="float-end">
+        {% if account.hint %}<a class="link" onclick="$('#hint' + {{ account.id }}).toggleClass('invisible')">{{ hint_icon() }}</a>{% endif %}
+        <a class="link" onclick="copyPass({{ account.id }})">{{ copy_icon() }}</a>
+        <a class="link" onclick="$('#pass' + {{ account.id }}).toggleClass('invisible')">{{ view_icon() }}</a>
+      </div>
     </div>
   </div>
 </div>

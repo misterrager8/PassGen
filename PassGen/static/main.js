@@ -6,6 +6,14 @@ function refreshDiv(divId) {
     $('#' + divId).load(location.href + ' #' + divId);
 }
 
+function copyPass(accountId) {
+    var x = $('#copyThis' + accountId);
+    x.show();
+    x.select();
+    document.execCommand('copy');
+    x.hide();
+}
+
 function accountCreate() {
     $.post('account_create', {
         name: $('#name').val(),
