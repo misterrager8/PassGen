@@ -5,14 +5,14 @@
     --body-txt: #9F7E69;
 }
 
-body, .modal-content, .form-control, .dropdown-menu {
+body, .modal-content, .form-control, .dropdown-menu, .card {
     background-color: var(--body-bg) !important;
     color: var(--body-txt) !important;
 }
 
-.navbar, .btn, .dropdown-item:hover {
-    background-color: var(--navbar-bg);
-    color: var(--navbar-txt);
+.navbar, .btn, .dropdown-item:hover, .badge-custom {
+    background-color: var(--navbar-bg) !important;
+    color: var(--navbar-txt) !important;
 }
 
 a:hover {
@@ -22,4 +22,15 @@ a:hover {
 .link, .link:hover {
     color: inherit;
     text-decoration: none;
+}
+
+.card-body {
+    border: 1px solid var(--body-txt);
+    border-radius: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.bg-danger {
+    color: white !important;
 }

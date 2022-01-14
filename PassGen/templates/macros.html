@@ -37,6 +37,17 @@
 </svg>
 {% endmacro %}
 
+{% macro account_card(account) %}
+<div class="card border-0 col-4">
+  <div class="card-body">
+    <span class="h2 d-block">{{ account.name }}</span>
+    <span class="d-block">{{ account.user_ }}</span>
+    <a class="badge link bg-danger" onclick="toggleDiv('delete' + {{ account.id }})">Delete</a>
+    <a id="delete{{ account.id }}" class="badge link" style="display:none" onclick="accountDelete({{ account.id }})">Delete?</a>
+  </div>
+</div>
+{% endmacro %}
+
 {% macro login_form() %}
 <form method="POST" action="{{ url_for('login') }}" class="form-group">
   <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
@@ -50,5 +61,15 @@
   <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
   <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
   <button type="submit" class="btn w-100">Sign Up</button>
+</form>
+{% endmacro %}
+
+{% macro account_create_form() %}
+<form class="form-group" onsubmit="event.preventDefault(); accountCreate(); this.reset();">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Account Name" id="name">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="User" id="user_">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Pass" id="pass_">
+  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Hint" id="hint">
+  <button type="submit" class="btn w-100">+</button>
 </form>
 {% endmacro %}

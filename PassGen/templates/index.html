@@ -2,5 +2,15 @@
 {% import "macros.html" as macros with context %}
 
 {% block body %}
-<title>Home</title>
+<title>PassGen</title>
+{% if not current_user.is_anonymous %}
+<a class="badge badge-custom link" onclick="toggleDiv('accountCreate')">+ New Account</a>
+<div class="py-3" id="accountCreate" style="display:none">{{ macros.account_create_form() }}</div>
+
+<div id="accounts" class="row">
+  {% for i in current_user.accounts %}
+  {{ macros.account_card(i) }}
+  {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

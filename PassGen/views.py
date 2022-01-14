@@ -1,11 +1,13 @@
+import random
+
 from flask import render_template, current_app, url_for, request
-from flask_login import logout_user, login_user
+from flask_login import logout_user, login_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
 from PassGen import login_manager, db
 from PassGen.ctrla import Database
-from PassGen.models import User
+from PassGen.models import User, Account
 
 database = Database()
 
@@ -48,3 +50,26 @@ def signup():
 @current_app.route("/")
 def index():
     return render_template("index.html")
+
+
+@current_app.route("/account_create", methods=["POST"])
+@login_required
+def account_create():
+    _ = Account(name=request.form["name"],
+                user_=request.form["user_"],
+                pass_=request.form["pass_"],
+                hint=request.form["hint"],
+                color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
+                user_id=current_user.id)
+
+    database.create(_)
+    return redirect(request.referrer)
+
+
+@current_app.route("/account_delete")
+@login_required
+def account_delete():
+    _: Account = database.get(Account, request.args.get("id_"))
+
+    database.delete(_)
+    return redirect(request.referrer)
