@@ -1,3 +1,20 @@
+:root {
+    --navbar-bg: #9F7E69;
+    --navbar-txt: #D2BBA0;
+    --body-bg: #D2BBA0;
+    --body-txt: #9F7E69;
+}
+
+body, .modal-content, .form-control, .dropdown-menu {
+    background-color: var(--body-bg) !important;
+    color: var(--body-txt) !important;
+}
+
+.navbar, .btn, .dropdown-item:hover {
+    background-color: var(--navbar-bg);
+    color: var(--navbar-txt);
+}
+
 a:hover {
     cursor: pointer;
 }
