@@ -1,39 +1,57 @@
-:root {
-    --navbar-bg: #9F7E69;
-    --navbar-txt: #D2BBA0;
-    --body-bg: #D2BBA0;
-    --body-txt: #9F7E69;
+:root, html[data-theme='dark'] {
+    --primary-bg: #26547C;
+    --primary-txt: white;
+    --secondary-bg: white;
+    --secondary-txt: #26547C;
 }
 
-body, .modal-content, .form-control, .dropdown-menu, .card {
-    background-color: var(--body-bg) !important;
-    color: var(--body-txt) !important;
+html[data-theme='light'] {
+    --primary-bg: white;
+    --primary-txt: #26547C;
+    --secondary-bg: #26547C;
+    --secondary-txt: white;
 }
 
-.navbar, .btn, .dropdown-item:hover, .badge-custom {
-    background-color: var(--navbar-bg) !important;
-    color: var(--navbar-txt) !important;
-}
-
-a:hover {
+a, a:hover {
     cursor: pointer;
-}
-
-.link, .link:hover {
-    color: inherit;
     text-decoration: none;
+    color: inherit;
 }
 
-.card-body {
-    border: 1px solid var(--body-txt);
-    border-radius: 10px;
-    margin-top: 10px;
+.navbar, .btn-custom, .dropdown-menu, .dropdown-item {
+    background-color: var(--secondary-bg);
+    color: var(--secondary-txt);
 }
 
-.bg-danger {
-    color: white !important;
+body, .modal-content, .input-custom, .input-hidden, .btn-custom:hover, .card, .dropdown-item:hover {
+    background-color: var(--primary-bg);
+    color: var(--primary-txt);
 }
 
-.invisible {
-    visibility: hidden;
+.border-custom, .btn-custom, .input-custom, .card-body {
+    border: 1px solid var(--primary-txt);
+    border-radius: 5px;
+}
+
+.font-custom, .btn-custom, ::placeholder, .dropdown-item {
+    letter-spacing: 2px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.btn-custom, .input-custom {
+    padding: 5px 15px;
+}
+
+.btn-custom, .dropdown-item {
+    transition: background-color .5s;
+}
+
+.input-hidden {
+    border: 0;
+}
+
+::placeholder {
+    color: inherit;
+    opacity: 25%;
 }

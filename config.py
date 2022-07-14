@@ -1,11 +1,9 @@
-import os
-
 import dotenv
+import os
 
 dotenv.load_dotenv()
 
-SQLALCHEMY_DATABASE_URI = os.getenv("db_url")
-SECRET_KEY = os.getenv("secret_key")
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+ENV = os.getenv("env")
 DEBUG = os.getenv("debug")
-ENV = os.getenv("flask_env")
+SQLALCHEMY_DATABASE_URI = os.getenv("sqlalchemy_database_uri")
+SQLALCHEMY_TRACK_MODIFICATIONS = False

@@ -1,3 +1,4 @@
-# PassGen
+## PassGen
+---
 
-Password Manager and Generator
+Locally-hosted password manager app, powered by Python and Flask

@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% import "macros.html" as macros with context %}
-
 {% block body %}
 <title>PassGen</title>
-{% if not current_user.is_anonymous %}
-<a class="badge badge-custom link" onclick="toggleDiv('accountCreate')">+ New Account</a>
-<div class="py-3" id="accountCreate" style="display:none">{{ macros.account_create_form() }}</div>
-
-<div id="accounts" class="row">
-  {% for i in current_user.accounts %}
-  {{ macros.account_card(i) }}
-  {% endfor %}
+{{ macros.create_account_form() }}
+{% if accounts | length > 0 %}
+<div class="my-4 row">
+    {% for i in accounts %}
+    {{ macros.account_card(i) }}
+    {% endfor %}
+</div>
+<a target="_blank" href="{{ url_for('export_all') }}" download="passes.csv" class="font-custom"><i class="bi bi-download"></i> Export All</a>
+{% else %}
+<div class="h-50 w-100 d-flex opacity-25">
+    <div class="align-self-center mx-auto" style="font-size: 3em">
+        <p class="bi bi-key-fill text-center"></p>
+        <p>No Accounts.</p>
+    </div>
 </div>
 {% endif %}
 {% endblock %}

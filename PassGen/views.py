@@ -1,75 +1,59 @@
-import random
-
-from flask import render_template, current_app, url_for, request
-from flask_login import logout_user, login_user, login_required, current_user
-from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils import redirect
-
-from PassGen import login_manager, db
-from PassGen.ctrla import Database
-from PassGen.models import User, Account
-
-database = Database()
-
-
-@login_manager.user_loader
-def load_user(id_: int):
-    return database.get(User, id_)
-
-
-@current_app.route("/login", methods=["POST"])
-def login():
-    email = request.form["email"]
-    password = request.form["password"]
-
-    user = db.session.query(User).filter(User.email == email).first()
-
-    if user and check_password_hash(user.password, password):
-        login_user(user)
-        return redirect(url_for("index"))
-    else:
-        return "Login failed."
-
-
-@current_app.route("/logout")
-def logout():
-    logout_user()
-    return redirect(url_for("index"))
-
-
-@current_app.route("/signup", methods=["POST"])
-def signup():
-    _ = User(email=request.form["email"],
-             password=generate_password_hash(request.form["password"]))
-
-    database.create(_)
-    login_user(_)
-    return redirect(url_for("index"))
+from flask import render_template, current_app, request, redirect, url_for
+from PassGen.models import Account
+from PassGen import db
+import datetime
 
 
 @current_app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", accounts=Account.query.all())
 
 
-@current_app.route("/account_create", methods=["POST"])
-@login_required
-def account_create():
-    _ = Account(name=request.form["name"],
-                user_=request.form["user_"],
-                pass_=request.form["pass_"],
-                hint=request.form["hint"],
-                color="#{:06x}".format(random.randint(0, 0xFFFFFF)),
-                user_id=current_user.id)
+@current_app.route("/create_account", methods=["POST"])
+def create_account():
+    account_ = Account(
+        name=request.form["name"],
+        username=request.form["username"],
+        password=request.form["password"],
+        hint=request.form["hint"],
+        last_updated=datetime.datetime.now(),
+    )
+    db.session.add(account_)
+    db.session.commit()
 
-    database.create(_)
     return redirect(request.referrer)
 
 
-@current_app.route("/account_delete")
-@login_required
-def account_delete():
-    _: Account = database.get(Account, request.args.get("id_"))
+@current_app.route("/edit_account", methods=["POST"])
+def edit_account():
+    account_ = Account.query.get(int(request.args.get("id_")))
 
-    database.delete(_)
+    account_.name = request.form["name"]
+    account_.username = request.form["username"]
+    account_.hint = request.form["hint"]
+    if account_.password != request.form["password"]:
+        account_.last_updated = datetime.datetime.now()
+    account_.password = request.form["password"]
+
+    db.session.commit()
+
     return redirect(request.referrer)
+
+
+@current_app.route("/delete_account")
+def delete_account():
+    account_ = Account.query.get(int(request.args.get("id_")))
+    db.session.delete(account_)
+    db.session.commit()
+
+    return redirect(request.referrer)
+
+
+@current_app.route("/export_all")
+def export_all():
+    return "\n".join(
+        [
+            "%s,%s,%s,%s,%s" % (i.name, i.username, i.password, i.hint, i.last_updated)
+            for i in Account.query.all()
+        ]
+    )

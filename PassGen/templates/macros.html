@@ -1,105 +1,45 @@
-{% macro logo(size=30, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-key-fill {{ class }}" viewBox="0 0 16 16">
-  <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-</svg>
+{% macro create_account_form() %}
+<form onsubmit="event.preventDefault(); createAccount()" class="input-group">
+    <input required autocomplete="off" class="input-custom" id="name" placeholder="Name">
+    <input autocomplete="off" class="input-custom" id="username" placeholder="Username">
+    <input required autocomplete="off" class="input-custom" id="password" placeholder="Password">
+    <input autocomplete="off" class="input-custom" id="hint" placeholder="Hint">
+    <button class="btn-custom"><i class="bi bi-plus-lg"></i> Create Account</button>
+</form>
 {% endmacro %}
 
-{% macro add_icon(size=20, color='green', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-plus-circle {{ class }}" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-</svg>
-{% endmacro %}
-
-{% macro delete_icon(size=20, color='red', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-x-circle {{ class }}" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg>
-{% endmacro %}
-
-{% macro edit_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-pencil-square {{ class }}" viewBox="0 0 16 16">
-  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-</svg>
-{% endmacro %}
-
-{% macro user_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-person-fill {{ class }}" viewBox="0 0 16 16">
-  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-</svg>
-{% endmacro %}
-
-{% macro circle_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-circle-fill {{ class }}" viewBox="0 0 16 16">
-  <circle cx="8" cy="8" r="8"/>
-</svg>
-{% endmacro %}
-
-{% macro copy_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-clipboard {{ class }}" viewBox="0 0 20 20">
-  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-</svg>
-{% endmacro %}
-
-{% macro view_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-eye {{ class }}" viewBox="0 0 16 16">
-  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-</svg>
-{% endmacro %}
-
-{% macro hint_icon(size=20, color='currentcolor', class='') %}
-<svg xmlns="http://www.w3.org/2000/svg" width="{{ size }}" height="{{ size }}" fill="{{ color }}" class="bi bi-question-lg {{ class }}" viewBox="0 0 20 20">
-  <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14Z"/>
-</svg>
+{% macro edit_account_form(account) %}
+<form method="POST" class="input-group" action="{{ url_for('edit_account', id_=account.id) }}">
+    <input required autocomplete="off" class="input-custom" name="name" placeholder="Name" value="{{ account.name }}">
+    <input autocomplete="off" class="input-custom" name="username" placeholder="Username" value="{{ account.username }}">
+    <input required autocomplete="off" class="input-custom" name="password" placeholder="Password" value="{{ account.password }}">
+    <input autocomplete="off" class="input-custom" name="hint" placeholder="Hint" value="{{ account.hint }}">
+    <button class="btn-custom"><i class="bi bi-pen"></i> Edit Account</button>
+</form>
 {% endmacro %}
 
 {% macro account_card(account) %}
-<div class="card border-0 col-4">
-  <div class="card-body">
-    <input style="display:none" value="{{ account.pass_ }}" id="copyThis{{ account.id }}">
-    <span class="h2 d-block">{{ account.name }}</span>
-    <span class="d-block">{{ account.user_ }}</span>
-    <span class="fst-italic invisible d-block" id="pass{{ account.id }}">{{ account.pass_ }}</span>
-    {% if account.hint %}<span class="fst-italic invisible d-block" id="hint{{ account.id }}">{{ account.hint }}</span>{% endif %}
-    <div>
-      <a class="badge link bg-danger" onclick="toggleDiv('delete' + {{ account.id }})">Delete</a>
-      <a id="delete{{ account.id }}" class="badge link" style="display:none" onclick="accountDelete({{ account.id }})">Delete?</a>
-      <div class="float-end">
-        {% if account.hint %}<a class="link" onclick="$('#hint' + {{ account.id }}).toggleClass('invisible')">{{ hint_icon() }}</a>{% endif %}
-        <a class="link" onclick="copyPass({{ account.id }})">{{ copy_icon() }}</a>
-        <a class="link" onclick="$('#pass' + {{ account.id }}).toggleClass('invisible')">{{ view_icon() }}</a>
-      </div>
+<div class="card col-xl-4 border-0">
+    <div class="card-body mb-4" onmouseenter="$('#pass' + {{ account.id }}).removeClass('invisible')" onmouseleave="$('#pass' + {{ account.id }}).addClass('invisible')">
+        <p class="font-custom" style="font-size: 2em">{{ account.name }}</p>
+        <p><i class="bi bi-person-fill"></i> {{ account.username or '(No Username)' }}</p>
+        <input readonly value="{{ account.password }}" class="input-hidden invisible font-monospace mb-2" id="pass{{ account.id }}" autocomplete="off">
+        <p class="fst-italic opacity-50"><i class="bi bi-lightbulb"></i> {{ account.hint or 'No Hints' }}</p>
+        <div class="mt-3">
+            <a onclick="copyPass({{ account.id }})"><i id="copyBtn{{ account.id }}" class="bi bi-clipboard me-2"></i></a>
+            <a data-bs-toggle="modal" data-bs-target="#edit{{ account.id }}"><i class="bi bi-pen me-2"></i></a>
+            <a class="text-danger" onclick="toggleDiv('deleteAccount' + {{ account.id }})"><i class="bi bi-trash3"></i></a>
+            <a class="text-danger font-custom" onclick="deleteAccount({{ account.id }})" id="deleteAccount{{ account.id }}" style="display: none">Delete?</a>
+            <small class="fst-italic opacity-50 float-end">Updated {{ account.last_updated.strftime('%m-%d-%Y') }}</small>
+        </div>
     </div>
-  </div>
 </div>
-{% endmacro %}
 
-{% macro login_form() %}
-<form method="POST" action="{{ url_for('login') }}" class="form-group">
-  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn w-100">Log In</button>
-</form>
-{% endmacro %}
-
-{% macro signup_form() %}
-<form method="POST" action="{{ url_for('signup') }}" class="form-group">
-  <input type="email" class="form-control mb-2" autocomplete="off" placeholder="E-mail" name="email">
-  <input type="password" class="form-control mb-2" autocomplete="off" placeholder="Password" name="password">
-  <button type="submit" class="btn w-100">Sign Up</button>
-</form>
-{% endmacro %}
-
-{% macro account_create_form() %}
-<form class="form-group" onsubmit="event.preventDefault(); accountCreate(); this.reset();">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Account Name" id="name">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="User" id="user_">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Pass" id="pass_">
-  <input type="text" class="form-control mb-2" autocomplete="off" placeholder="Hint" id="hint">
-  <button type="submit" class="btn w-100">+</button>
-</form>
+<div class="modal" id="edit{{ account.id }}">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content p-3">
+            {{ edit_account_form(account) }}
+        </div>
+    </div>
+</div>
 {% endmacro %}
