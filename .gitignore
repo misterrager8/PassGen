@@ -1,0 +1,7 @@
+.sh
+todo.txt
+.env
+__pycache__/
+PassGen/__pycache__/
+PassGen.egg-info/
+passgen.txt

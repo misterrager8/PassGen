@@ -2,20 +2,13 @@
 {% import "macros.html" as macros with context %}
 {% block body %}
 <title>PassGen</title>
-{{ macros.create_account_form() }}
-{% if accounts | length > 0 %}
-<div class="my-4 row">
+{{ macros.account_add_form() }}
+{{ macros.account_sorter() }}
+<div class="my-3 row">
     {% for i in accounts %}
     {{ macros.account_card(i) }}
     {% endfor %}
 </div>
-<a target="_blank" href="{{ url_for('export_all') }}" download="passes.csv" class="font-custom"><i class="bi bi-download"></i> Export All</a>
-{% else %}
-<div class="h-50 w-100 d-flex opacity-25">
-    <div class="align-self-center mx-auto" style="font-size: 3em">
-        <p class="bi bi-key-fill text-center"></p>
-        <p>No Accounts.</p>
-    </div>
-</div>
-{% endif %}
+<a onclick="exportAccounts()" class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i> Export All</a>
+<span class="text-success" id="exportStatus"></span>
 {% endblock %}

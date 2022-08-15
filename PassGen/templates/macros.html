@@ -1,45 +1,52 @@
-{% macro create_account_form() %}
-<form onsubmit="event.preventDefault(); createAccount()" class="input-group">
-    <input required autocomplete="off" class="input-custom" id="name" placeholder="Name">
-    <input autocomplete="off" class="input-custom" id="username" placeholder="Username">
-    <input required autocomplete="off" class="input-custom" id="password" placeholder="Password">
-    <input autocomplete="off" class="input-custom" id="hint" placeholder="Hint">
-    <button class="btn-custom"><i class="bi bi-plus-lg"></i> Create Account</button>
-</form>
-{% endmacro %}
-
-{% macro edit_account_form(account) %}
-<form method="POST" class="input-group" action="{{ url_for('edit_account', id_=account.id) }}">
-    <input required autocomplete="off" class="input-custom" name="name" placeholder="Name" value="{{ account.name }}">
-    <input autocomplete="off" class="input-custom" name="username" placeholder="Username" value="{{ account.username }}">
-    <input required autocomplete="off" class="input-custom" name="password" placeholder="Password" value="{{ account.password }}">
-    <input autocomplete="off" class="input-custom" name="hint" placeholder="Hint" value="{{ account.hint }}">
-    <button class="btn-custom"><i class="bi bi-pen"></i> Edit Account</button>
-</form>
-{% endmacro %}
-
-{% macro account_card(account) %}
-<div class="card col-xl-4 border-0">
-    <div class="card-body mb-4" onmouseenter="$('#pass' + {{ account.id }}).removeClass('invisible')" onmouseleave="$('#pass' + {{ account.id }}).addClass('invisible')">
-        <p class="font-custom" style="font-size: 2em">{{ account.name }}</p>
-        <p><i class="bi bi-person-fill"></i> {{ account.username or '(No Username)' }}</p>
-        <input readonly value="{{ account.password }}" class="input-hidden invisible font-monospace mb-2" id="pass{{ account.id }}" autocomplete="off">
-        <p class="fst-italic opacity-50"><i class="bi bi-lightbulb"></i> {{ account.hint or 'No Hints' }}</p>
+{% macro account_card(account_) %}
+<div class="col-xl-4">
+    <div class="p-3 border-bottom mb-3">
+        <div>
+            <span class="fs-4">{{ account_.name }}</span><br>
+            <span class="{% if not account_.username %}invisible{% endif %} fst-italic text-secondary"><i class="bi bi-person"></i> {{ account_.username }}</span><br>
+            <span class="fst-italic text-secondary">
+                <i class="bi bi-pen"></i> Last Updated: {{ account_.last_updated.strftime('%-m-%-d-%y') }}
+            </span><br>
+            <span class="{% if not account_.hint %}invisible{% endif %} fst-italic text-secondary"><i class="bi bi-question-lg"></i> {{ account_.hint }}</span>
+        </div>
+        <input style="display: none" id="pass{{ account_.id }}" readonly autocomplete="off" class="form-control border-0 p-0 font-monospace" value="{{ account_.password }}">
         <div class="mt-3">
-            <a onclick="copyPass({{ account.id }})"><i id="copyBtn{{ account.id }}" class="bi bi-clipboard me-2"></i></a>
-            <a data-bs-toggle="modal" data-bs-target="#edit{{ account.id }}"><i class="bi bi-pen me-2"></i></a>
-            <a class="text-danger" onclick="toggleDiv('deleteAccount' + {{ account.id }})"><i class="bi bi-trash3"></i></a>
-            <a class="text-danger font-custom" onclick="deleteAccount({{ account.id }})" id="deleteAccount{{ account.id }}" style="display: none">Delete?</a>
-            <small class="fst-italic opacity-50 float-end">Updated {{ account.last_updated.strftime('%m-%d-%Y') }}</small>
+            <a class="btn btn-sm btn-outline-secondary" onclick="toggleDiv('edit' + {{ account_.id }})"><i class="bi bi-pen"></i></a>
+            <a class="btn btn-sm btn-outline-secondary" onclick="toggleDiv('pass' + {{ account_.id }})"><i class="bi bi-eye"></i></a>
+            <a class="btn btn-sm btn-outline-secondary" onclick="copyPass({{ account_.id }})"><i class="bi bi-clipboard" id="copyBtn{{ account_.id }}"></i></a>
+            <a class="btn btn-sm text-danger btn-outline-danger" onclick="toggleDiv('deleteAccount' + {{ account_.id }})"><i class="bi bi-trash3"></i></a>
+            <a class="text-danger" href="{{ url_for('delete_account', id_=account_.id) }}" id="deleteAccount{{ account_.id }}" style="display: none">Delete?</a>
+        </div>
+        <div class="mt-3" id="edit{{ account_.id }}" style="display: none">
+            {{ account_edit_form(account_) }}
         </div>
     </div>
 </div>
+{% endmacro %}
 
-<div class="modal" id="edit{{ account.id }}">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content p-3">
-            {{ edit_account_form(account) }}
-        </div>
-    </div>
+{% macro account_add_form() %}
+<form method="POST" action="{{ url_for('add_account') }}" class="input-group">
+    <input required class="form-control" name="name" autocomplete="off" placeholder="Name">
+    <input required class="form-control" name="password" autocomplete="off" placeholder="Password">
+    <button class="btn btn-outline-success"><i class="bi bi-plus-lg"></i> Add Account</button>
+</form>
+{% endmacro %}
+
+{% macro account_edit_form(account_) %}
+<form method="POST" action="{{ url_for('edit_account', id_=account_.id) }}" class="">
+    <input required class="form-control mb-2" name="name" autocomplete="off" placeholder="Name" value="{{ account_.name }}">
+    <input class="form-control mb-2" name="username" autocomplete="off" placeholder="Username" value="{{ account_.username or '' }}">
+    <input required class="form-control mb-2" name="password" autocomplete="off" placeholder="Password" value="{{ account_.password }}">
+    <input class="form-control mb-2" name="hint" autocomplete="off" placeholder="Hint" value="{{ account_.hint or '' }}">
+    <button class="btn btn-outline-secondary w-100"><i class="bi bi-pen"></i> Edit Account</button>
+</form>
+{% endmacro %}
+
+{% macro account_sorter() %}
+<div>
+    <span><i class="bi bi-filter-right"></i></span>
+    {% if order_by != 'id desc' %}<a href="{{ url_for('index', order_by='id desc') }}" class="btn btn-sm btn-outline-secondary">Recently Added</a>{% endif %}
+    {% if order_by != 'last_updated desc' %}<a href="{{ url_for('index', order_by='last_updated desc') }}" class="btn btn-sm btn-outline-secondary">Last Updated</a>{% endif %}
+    {% if order_by != 'name' %}<a href="{{ url_for('index', order_by='name') }}" class="btn btn-sm btn-outline-secondary">Name</a>{% endif %}
 </div>
 {% endmacro %}
