@@ -6,5 +6,8 @@ dotenv.load_dotenv()
 
 ENV = os.getenv("env")
 DEBUG = os.getenv("debug")
-SQLALCHEMY_DATABASE_URI = os.getenv("sqlalchemy_database_uri")
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+CLI_COLOR = os.getenv("cli_color")
+
+USER = os.getenv("user")
+PASSWORD = os.getenv("password")
+HOST = os.getenv("host")

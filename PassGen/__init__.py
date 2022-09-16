@@ -1,20 +1,27 @@
+import mysql.connector
 import pymysql
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from PassGen import config
 
 pymysql.install_as_MySQLdb()
-db = SQLAlchemy()
+
+mysql_ = mysql.connector.connect(
+    user=config.USER, password=config.PASSWORD, host=config.HOST
+)
+cursor_ = mysql_.cursor()
 
 
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
 
-    db.init_app(app)
-
     with app.app_context():
         from . import views
 
-        db.create_all()
+        cursor_.execute("CREATE DATABASE IF NOT EXISTS PassGen")
+        cursor_.execute(
+            "CREATE TABLE IF NOT EXISTS PassGen.accounts (name TEXT ,password TEXT, username TEXT, hint TEXT, last_updated DATETIME, id INT PRIMARY KEY AUTO_INCREMENT)"
+        )
 
         return app

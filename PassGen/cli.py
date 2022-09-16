@@ -3,10 +3,8 @@ import datetime
 import click
 import pyperclip
 
-from PassGen import config, create_app, db
+from PassGen import config, create_app
 from PassGen.models import Account
-
-app = create_app(config)
 
 
 @click.group()
@@ -18,50 +16,58 @@ def cli():
 @cli.command()
 def list_all():
     """List all accounts"""
-    with app.app_context():
-        for i in Account.query.all():
-            click.secho("[%s] %s" % (i.id, i.name), fg="cyan")
+    for i in Account.all():
+        click.secho("[%s] %s" % (i.id, i.name), fg=config.CLI_COLOR)
 
 
 @cli.command()
-@click.argument("name")
-def add_account(name):
+@click.option("--name", "-n", prompt=True)
+@click.option("--password", "-p", prompt=True, hide_input=True)
+def add_account(name, password):
     """Add an account with NAME"""
-    password = input(f"Enter password for {name}: ")
-    with app.app_context():
-        account_ = Account(
-            name=name, password=password, last_updated=datetime.datetime.now()
-        )
-        db.session.add(account_)
-        db.session.commit()
+    account_ = Account(
+        name=name, password=password, last_updated=datetime.datetime.now()
+    )
+    account_.insert()
 
-    click.secho("Account added", fg="green")
+    click.secho("Account added", fg=config.CLI_COLOR)
 
 
 @cli.command()
-@click.argument("id")
+@click.option("--id", "-i", prompt=True, type=int)
 def delete_account(id):
     """Delete account with ID"""
-    with app.app_context():
-        account_ = Account.query.get(int(id))
-        db.session.delete(account_)
-        db.session.commit()
+    account_ = Account.get(int(id))
+    account_.delete()
 
-    click.secho("Account deleted.", fg="green")
+    click.secho("Account deleted.", fg=config.CLI_COLOR)
 
 
 @cli.command()
-@click.argument("id")
+@click.option("--id", "-i", prompt=True, type=int)
 def copy_pass(id):
     """Copy account password with ID to clipboard"""
-    with app.app_context():
-        account_ = Account.query.get(int(id))
-        pyperclip.copy(account_.password)
+    account_ = Account.get(int(id))
+    pyperclip.copy(account_.password)
 
-    click.secho("Password copied.", fg="green")
+    click.secho("Password copied.", fg=config.CLI_COLOR)
+
+
+@cli.command()
+@click.option("--id", "-i", prompt=True, type=int)
+@click.option("--password", "-p", prompt=True, hide_input=True)
+def change_pass(id, password):
+    """Change account password with ID"""
+    account_ = Account.get(int(id))
+    account_.password = password
+    account_.last_updated = datetime.datetime.now()
+    account_.edit()
+
+    click.secho("Password changed.", fg=config.CLI_COLOR)
 
 
 @cli.command()
 def web():
     """Launch web interface"""
+    app = create_app(config)
     app.run()

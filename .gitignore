@@ -5,3 +5,4 @@ __pycache__/
 PassGen/__pycache__/
 PassGen.egg-info/
 passgen.txt
+.DS_Store
